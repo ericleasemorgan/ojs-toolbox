@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# issues2csv.sh - given OJS JSON file, output a rudimentary bibliographic CSV file
-# sample usage: find ./cache -name '*.json' -exec ./bin/issue2csv.sh {} > ./ojs.tsv \;
+# issues2csv.sh - given OJS JSON file, output a rudimentary bibliographic TSV file
 
 # Eric Lease Morgan <emorgan@nd.edu>
 # October 20, 2019 - first cut; at the cabin

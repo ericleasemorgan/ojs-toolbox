@@ -1,28 +1,38 @@
 #!/usr/bin/env bash
 
-# harvest-issues.sh - given a root and a key, cache issues from an OJS instance
+# harvest.sh - given a root and a key, cache issues from an OJS instance
+
+# https://ejournals.bc.edu/index.php/ital
+# "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IlwiOGIxZjkxMzgzMWIxZmFlOTJmODc0YjBmODVjYjY4NzY1Y2NmMDhlM1wiIg.QHN4gRUqW5Di0M4A3Z3NB1FIa9p5P56-iSOJBbbt-Ag
+# ital
 
 # Eric Lease Morgan <emorgan@nd.edu>
 # (c) University of Notre Dame; distributed under a GNU Public License
 
 # October 20, 2019 - first cut; at the cabin; brain-dead
+# October 25, 2019 - started adding additional command-line inputs
 
+
+# configure
+COUNT=20
+OFFSET=0
 
 # sanity check
-if [[ -z $1 ]]; then
+if [[ -z $1 || -z $2 || -z $3 ]]; then
 
-	echo "Usage: $0 <token>" >&2
+	echo "Usage: $0 <url> <token> <directory>" >&2
 	exit
 
 fi
 
 # get input
-TOKEN=$1
+ROOT="$1"
+TOKEN="$2"
+DIRECTORY="$3"
 
 # configure
-URL="https://ejournals.bc.edu/index.php/ital/api/v1/issues?count=100&apiToken=$TOKEN"
-ISSUE='https://ejournals.bc.edu/index.php/ital/api/v1/issues'
-DIRECTORY='./cache'
+URL="$ROOT/api/v1/issues?apiToken=$TOKEN"
+ISSUE="$ROOT/api/v1/issues"
 
 # initialize
 ISSUES=$( curl -s "$URL" )
