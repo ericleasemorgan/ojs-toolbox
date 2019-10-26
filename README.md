@@ -8,11 +8,11 @@ OJS is a journal publishing system. [1] Is supports a REST-ful API allowing the 
 
 The Toolbox is written in Bash. To cache the metadata, you will need to have additional software as part of your file system: curl and jq. [3, 4] Curl is used to interact with the API. Jq is used to read &amp; parse the resulting JSON streams. When &amp; if you want to transform the cached JSON files into rudimentary bibliographics, then you will also need to install GNU Parallel, a tool which makes parallel processing trivial. [5]
 
-Besides the software, you will need three pieces of information. The first is the root URL of the OJS system/title you wish to use. This value will probably look something like this --&gt; https://example.com/index.php/foobar  Ask the OJS systems administrator regarding the details. The second piece of information is an authorization token. If an "api secret" value has been created by the local OJS systems administrator, then each person with an OJS account ought to have been granted a token. Again, ask the OJS systems administrator for details. The third piece of information is the name of a directory where your metadata will be cached. For the sake of an example, assume the necessary values are:
+Besides the software, you will need three pieces of information. The first is the root URL of the OJS system/title you wish to use. This value will probably look something like this --&gt; https://example.com/index.php/foo  Ask the OJS systems administrator regarding the details. The second piece of information is an authorization token. If an "api secret" value has been created by the local OJS systems administrator, then each person with an OJS account ought to have been granted a token. Again, ask the OJS systems administrator for details. The third piece of information is the name of a directory where your metadata will be cached. For the sake of an example, assume the necessary values are:
 
-   1. root URL - https://example.com/index.php/foobar
+   1. root URL - https://example.com/index.php/foo
    2. token - xyzzy
-   3. directory - foobar
+   3. directory - bar
 
 Once you have gotten this far, you can cache the totality of the issue metadata:
 
