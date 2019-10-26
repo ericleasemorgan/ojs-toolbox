@@ -24,7 +24,7 @@ For my purposes, I need a TSV file with four columns: 1) author, 2) title, 3) da
 
     $ ./bin/issues2tsv.sh bar > ./bar.tsv
     
-The result will look something like this:
+The resulting file (bar.tsv) will look something like this:
 
 | author    | title        | date       | url                                                          |
 |-----------|--------------|------------|--------------------------------------------------------------|
@@ -32,7 +32,7 @@ The result will look something like this:
 | McGee     | Two Designs  | 1972-09-01 | https://example.com/index.php/foo/article/download/5739/5120 |
 | Saracevic | Book Reviews | 1972-09-01 | https://example.com/index.php/foo/article/download/5740/5121 |
 
-
+Give such a file, I can now download the content of a given article, extract any of its plain text, perform various natural language processing tasks against it, text mine the whole, full text index the whole, apply various bits of machine learning against the whole, and in general, "read" the totality of the journal.
 
 
 ## Links
