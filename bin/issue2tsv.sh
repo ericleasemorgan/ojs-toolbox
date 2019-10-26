@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-# issues2csv.sh - given OJS JSON file, output a rudimentary bibliographic TSV file
+# issue2tsv.sh - given and OJS JSON issue file, output a rudimentary bibliographic TSV stream
 
 # Eric Lease Morgan <emorgan@nd.edu>
+# (c) University of Notre Dame; distributed under a GNU Public License
+
 # October 20, 2019 - first cut; at the cabin
+# October 26, 2019 - added bits of documentation
 
 
 # sanity check
@@ -28,9 +31,11 @@ while [ $INDEX -lt $LENGTH ]; do
 	AUTHOR=$( echo $ARTICLE | jq '.shortAuthorString' )
 	TITLE=$( echo $ARTICLE | jq '.fullTitle.en_US' )
 	DATE=$( echo $ARTICLE | jq '.datePublished' )
+	
+	# parse and munge; this value ought to be given for free
 	URL=$( echo $ARTICLE | jq '.galleys[0].urlPublished' | sed 's/view/download/' )
 
-	# unescape
+	# unescape; there is probably a better way
 	AUTHOR="${AUTHOR:1}"
 	AUTHOR="${AUTHOR%?}"
 	TITLE="${TITLE:1}"
@@ -40,7 +45,7 @@ while [ $INDEX -lt $LENGTH ]; do
 	URL="${URL:1}"
 	URL="${URL%?}"
 
-	# trim the date
+	# trim the date; get rid of the time value
 	DATE=$( echo $DATE | cut -d ' ' -f1 )
 	
 	# output

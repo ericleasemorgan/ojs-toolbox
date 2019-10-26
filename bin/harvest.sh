@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-# harvest.sh - given a root and a key, cache issues from an OJS instance
-
-# https://ejournals.bc.edu/index.php/ital
-# "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IlwiOGIxZjkxMzgzMWIxZmFlOTJmODc0YjBmODVjYjY4NzY1Y2NmMDhlM1wiIg.QHN4gRUqW5Di0M4A3Z3NB1FIa9p5P56-iSOJBbbt-Ag
-# ital
+# harvest.sh - given a root URL and a token, cache all the issue metdata of an OJS title
 
 # Eric Lease Morgan <emorgan@nd.edu>
 # (c) University of Notre Dame; distributed under a GNU Public License
@@ -14,13 +10,13 @@
 
 
 # configure
-COUNT=20
-OFFSET=0
+COUNT=100
+ENDPOINT='api/v1/issues'
 
 # sanity check
 if [[ -z $1 || -z $2 || -z $3 ]]; then
 
-	echo "Usage: $0 <url> <token> <directory>" >&2
+	echo "Usage: $0 <root url> <token> <directory>" >&2
 	exit
 
 fi
@@ -30,48 +26,61 @@ ROOT="$1"
 TOKEN="$2"
 DIRECTORY="$3"
 
-# configure
-URL="$ROOT/api/v1/issues?apiToken=$TOKEN"
-ISSUE="$ROOT/api/v1/issues"
-
 # initialize
-ISSUES=$( curl -s "$URL" )
-LENGTH=$( echo $ISSUES | jq '.items | length' )
-INDEX=0
+ITEMS=$( curl -s "$ROOT/$ENDPOINT?apiToken=$TOKEN&count=1" | jq .itemsMax )
+OFFSET=0
+ITEM=0
 
 # make sane
 mkdir -p $DIRECTORY
 
-# process each issue
-while [ $INDEX -lt $LENGTH ]; do
+# process all possible issues
+while [ $OFFSET -lt $ITEMS ]; do
 
-	# parse
-	ID=$( echo $ISSUES | jq ".items[$INDEX].id" )
-	DATE=$( echo $ISSUES | jq ".items[$INDEX].datePublished" )
-	
-	# normalize
-	DATE="${DATE:1}"
-	DATE="${DATE%?}"
-	DATE=$( echo $DATE | cut -d ' ' -f1 )
+	# re-initialize
+	URL="$ROOT/$ENDPOINT?count=$COUNT&offset=$OFFSET&apiToken=$TOKEN"
+	JSON=$( curl -s "$URL" )
+	LENGTH=$( echo $JSON | jq '.items | length' )
+	INDEX=0
 
-	# build url and file
-	URL="$ISSUE/$ID?&apiToken=$TOKEN"
-	FILE="$DIRECTORY/$DATE-$( printf '%04d' $ID ).json"
-	
-	# debug
-	echo "    id: $ID"   >&2
-	echo "  date: $DATE" >&2
-	echo "  file: $FILE" >&2
-	echo "   URL: $URL"  >&2
-	echo                 >&2
+	# process each issue
+	while [ $INDEX -lt $LENGTH ]; do
 
-	# harvest, conditionally
-	if [[ ! -e $FILE ]]; then curl -s "$URL" | jq . > $FILE; fi
+		# parse
+		ID=$( echo $JSON | jq ".items[$INDEX].id" )
+		DATE=$( echo $JSON | jq ".items[$INDEX].datePublished" )
 	
-	# increment
-	let INDEX=INDEX+1 
+		# normalize
+		DATE="${DATE:1}"
+		DATE="${DATE%?}"
+		DATE=$( echo $DATE | cut -d ' ' -f1 )
+
+		# build url and file
+		URL="$ROOT/$ENDPOINT/$ID?&apiToken=$TOKEN"
+		FILE="$DIRECTORY/$DATE-$( printf '%04d' $ID ).json"
+	
+		# increment
+		let ITEM=ITEM+1 
 		
-# fini
+		# debug
+		echo "  item: $ITEM of $ITEMS" >&2
+		echo "    id: $ID"             >&2
+		echo "  date: $DATE"           >&2
+		echo "  file: $FILE"           >&2
+		echo "   URL: $URL"            >&2
+		echo                           >&2
+
+		# harvest, conditionally
+		if [[ ! -e $FILE ]]; then curl -s "$URL" | jq . > $FILE; fi
+
+		# increment again
+		let INDEX=INDEX+1 
+		
+	# fini
+	done
+
+	# increment yet again
+	let OFFSET=OFFSET+COUNT
+	
 done
 
-exit
