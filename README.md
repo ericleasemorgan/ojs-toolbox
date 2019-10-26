@@ -41,7 +41,7 @@ Give such a file, I can easily download the content of a given article, extract 
 [2] OJS API - https://docs.pkp.sfu.ca/dev/api/ojs/3.1  
 [3] curl - https://curl.haxx.se  
 [4] jq - https://stedolan.github.io/jq/  
-[5] GNU Parallel - https://www.gnu.org/software/parallel/
+[5] GNU Parallel - https://www.gnu.org/software/parallel/  
 [6] Distant Reader - https://distantreader.org
 
 --- 
