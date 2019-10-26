@@ -32,7 +32,7 @@ The resulting file (bar.tsv) looks something like this:
 | McGee     | Two Designs  | 1972-09-01 | https://example.com/index.php/foo/article/download/5739/5120 |
 | Saracevic | Book Reviews | 1972-09-01 | https://example.com/index.php/foo/article/download/5740/5121 |
 
-Give such a file, I can easily download the content of a given article, extract any of its plain text, perform various natural language processing tasks against it, text mine the whole, full text index the whole, apply various bits of machine learning against the whole, and in general, "read" the totality of the journal.
+Give such a file, I can easily download the content of a given article, extract any of its plain text, perform various natural language processing tasks against it, text mine the whole, full text index the whole, apply various bits of machine learning against the whole, and in general, "read" the totality of the journal. See The Distant Reader for details. [6]
 
 
 ## Links
@@ -42,7 +42,7 @@ Give such a file, I can easily download the content of a given article, extract 
 [3] curl - https://curl.haxx.se  
 [4] jq - https://stedolan.github.io/jq/  
 [5] GNU Parallel - https://www.gnu.org/software/parallel/
-
+[6] Distant Reader - https://distantreader.org
 
 --- 
 Eric Lease Morgan &lt;emorgan@nd.edu&gt;  
