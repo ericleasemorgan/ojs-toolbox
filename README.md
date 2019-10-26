@@ -20,11 +20,11 @@ Once you have gotten this far, you can cache the totality of the issue metadata:
    
 More specifically, `harvest.sh` will create a directory called bar. It will then determine how many issues exist in the title foo. It will then harvest sets of issue data, parse each set into individual issue files, and save the result as JSON files in the bar directory. You now have a "database" containing all the bibliographic information of a given title
 
-For my purposes, I need a TSV file with four columns: 1) author, 2) title, 3) date, and 4) url. Such is the purpose of `issues2tsv.sh` and `issue2tsv.sh`. The first script, issues2tsv.sh, takes a directory as input. It then outputs simple header, finds all the JSON files in the given directory, and passed them along (in parallel) to `issue2tsv.sh` which does the actual work. Thus, to create my TSV file, I can submit a command like this:
+For my purposes, I need a TSV file with four columns: 1) author, 2) title, 3) date, and 4) url. Such is the purpose of `issues2tsv.sh` and `issue2tsv.sh`. The first script, issues2tsv.sh, takes a directory as input. It then outputs a simple header, finds all the JSON files in the given directory, and passes them along (in parallel) to `issue2tsv.sh` which does the actual work. Thus, to create my TSV file, I submit a command like this:
 
     $ ./bin/issues2tsv.sh bar > ./bar.tsv
     
-The resulting file (bar.tsv) will look something like this:
+The resulting file (bar.tsv) looks something like this:
 
 | author    | title        | date       | url                                                          |
 |-----------|--------------|------------|--------------------------------------------------------------|
@@ -32,7 +32,7 @@ The resulting file (bar.tsv) will look something like this:
 | McGee     | Two Designs  | 1972-09-01 | https://example.com/index.php/foo/article/download/5739/5120 |
 | Saracevic | Book Reviews | 1972-09-01 | https://example.com/index.php/foo/article/download/5740/5121 |
 
-Give such a file, I can now download the content of a given article, extract any of its plain text, perform various natural language processing tasks against it, text mine the whole, full text index the whole, apply various bits of machine learning against the whole, and in general, "read" the totality of the journal.
+Give such a file, I can easily download the content of a given article, extract any of its plain text, perform various natural language processing tasks against it, text mine the whole, full text index the whole, apply various bits of machine learning against the whole, and in general, "read" the totality of the journal.
 
 
 ## Links
